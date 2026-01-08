@@ -416,7 +416,37 @@ static int display_hover_skill(void)
 	}
 
 	if (sv_ver == 35) {
-		// FIXME
+		if (skltab && sklsel2 != -1 && tick - last_tick > HOVER_DELAY) {
+			int height = 0, width = 200;
+
+			int v = skltab[sklsel2 + skloff].v;
+			if (v < 0 || v >= *game_v_max) {
+				return 0;
+			}
+
+			height += render_text_break_length(0, 0, width - 12, 0xffff, 0, game_skilldesc[v]);
+
+			int sx = mousex + 8;
+			if (sx < dotx(DOT_TL)) {
+				sx = dotx(DOT_TL);
+			}
+			if (sx > dotx(DOT_BR) - width - 8) {
+				sx = dotx(DOT_BR) - width - 8;
+			}
+
+			int sy = mousey - height / 2 - 4;
+			if (sy < doty(DOT_TL)) {
+				sy = doty(DOT_TL);
+			}
+			if (sy > doty(DOT_BR) - height - 8) {
+				sy = doty(DOT_BR) - height - 8;
+			}
+
+			render_shaded_rect(sx, sy, sx + width + 8, sy + height + 8, 0x0000, 150);
+
+			sy = render_text_break(sx + 4, sy + 4, sx + width - 8, 0xffff, 0, game_skilldesc[v]) + 10;
+		}
+
 		return 0;
 	}
 

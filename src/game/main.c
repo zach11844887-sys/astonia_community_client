@@ -434,6 +434,7 @@ int parse_args(int argc, char *argv[])
 					set_v35_keytab();
 					set_v35_actions();
 					set_v35_skilltab();
+					set_v35_skilldesc();
 				}
 			}
 			break;

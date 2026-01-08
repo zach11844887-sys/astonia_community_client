@@ -1015,13 +1015,21 @@ void display_rage(void)
 		return;
 	}
 
-	step = (int)(50 - 50 * rage / value[0][skl]);
+	if (sv_ver == 35) {
+		step = 50 - 50 * rage / (value[0][V35_RAGE] + (int)(value[0][V35_TACTICS] * 0.15 + 0.1));
+	} else {
+		step = (int)(50 - 50 * rage / value[0][V3_RAGE]);
+	}
 	render_push_clip();
 	render_more_clip(0, 0, 800, doty(DOT_SSP) + 119 - 68);
 	render_sprite(997, dotx(DOT_SSP) + 3 * 10, doty(DOT_SSP) + step, RENDERFX_NORMAL_LIGHT, RENDER_ALIGN_NORMAL);
 	render_pop_clip();
 
-	sprintf(hover_rage_text, "Rage: %d%%", 100 * rage / value[0][skl]);
+	if (sv_ver == 35) {
+		sprintf(hover_rage_text, "Rage: +%d", rage / 4);
+	} else {
+		sprintf(hover_rage_text, "Rage: %d%%", 100 * rage / value[0][V3_RAGE]);
+	}
 }
 
 void display_game_special(void)

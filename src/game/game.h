@@ -180,3 +180,4 @@ void quest_select(int nr);
 void init_game(int mcx, int mcy);
 void exit_game(void);
 void set_v35_skilltab(void);
+void set_v35_skilldesc(void);
