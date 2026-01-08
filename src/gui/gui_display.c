@@ -460,6 +460,10 @@ DLL_EXPORT int _do_display_help(int nr)
 {
 	int x = dotx(DOT_HLP) + 10, y = doty(DOT_HLP) + 8, oldy;
 
+	if (sv_ver == 35) {
+		// FIXME!!!
+	}
+
 	switch (nr) {
 	case 1:
 		y = render_text_break(x, y, x + 192, whitecolor, 0, "Help Index");

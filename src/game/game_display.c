@@ -1386,6 +1386,40 @@ void display_pents(void)
 	}
 }
 
+static void display_otext(void)
+{
+	int n, cnt;
+	unsigned short col;
+
+	for (n = cnt = 0; n < MAXOTEXT; n++) {
+		if (!otext[n].text) {
+			continue;
+		}
+		if (otext[n].type < 3 && tick - otext[n].time > TICKS * 5) {
+			continue;
+		}
+		if (tick - otext[n].time > TICKS * 65) {
+			continue;
+		}
+		if (otext[n].type > 1) {
+			if (n == 0) {
+				col = redcolor;
+			} else {
+				col = darkredcolor;
+			}
+		} else {
+			if (n == 0) {
+				col = greencolor;
+			} else {
+				col = darkgreencolor;
+			}
+		}
+		render_text(
+		    400, 420 - cnt * 12, col, RENDER_TEXT_LARGE | RENDER_TEXT_FRAMED | RENDER_TEXT_CENTER, otext[n].text);
+		cnt++;
+	}
+}
+
 void display_game(void)
 {
 	display_game_spells();
@@ -1393,6 +1427,7 @@ void display_game(void)
 	display_game_map(map);
 	display_game_names();
 	display_pents();
+	display_otext();
 }
 
 void prefetch_game(tick_t attick)
