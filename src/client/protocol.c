@@ -982,9 +982,9 @@ static void sv_prof(unsigned char *buf)
 		cnt += (value[1][n + V_PROFBASE] = buf[n + 1]);
 	}
 	if (sv_ver == 35) {
-		value[0][V3_PROFESSION] = cnt;
-	} else {
 		value[0][V35_PROFESSION] = cnt;
+	} else {
+		value[0][V3_PROFESSION] = cnt;
 	}
 
 	update_skltab = 1;
