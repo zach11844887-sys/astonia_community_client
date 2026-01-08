@@ -698,13 +698,28 @@ void exec_cmd(int cmd, int a)
 		return;
 
 	case CMD_TELEPORT:
-		if (telsel == 1042) {
-			clan_offset = 16 - clan_offset;
-		} else {
-			if (telsel >= 64 && telsel <= 100) {
-				cmd_teleport(telsel + clan_offset);
+		if (sv_ver == 35) {
+			if (telsel == 1042) {
+				clan_offset += 16;
+				if (clan_offset > 48) {
+					clan_offset = 0;
+				}
 			} else {
-				cmd_teleport(telsel);
+				if (telsel >= 64 && telsel <= 200) {
+					cmd_teleport(telsel + clan_offset);
+				} else {
+					cmd_teleport(telsel);
+				}
+			}
+		} else {
+			if (telsel == 1042) {
+				clan_offset = 16 - clan_offset;
+			} else {
+				if (telsel >= 64 && telsel <= 100) {
+					cmd_teleport(telsel + clan_offset);
+				} else {
+					cmd_teleport(telsel);
+				}
 			}
 		}
 		return;
