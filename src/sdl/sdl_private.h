@@ -11,6 +11,8 @@
 #include <SDL3/SDL.h>
 #include <SDL3_mixer/SDL_mixer.h>
 
+#include "../dll.h"
+
 // Fixed upper bound for the texture cache metadata.
 // Statically allocated at compile time
 #define MAX_TEXCACHE 8000
@@ -184,8 +186,8 @@ void png_load_helper_exit(struct png_helper *p);
 // ============================================================================
 // Shared variables from sdl_core.c
 // ============================================================================
-extern SDL_Window *sdlwnd;
-extern SDL_Renderer *sdlren;
+DLL_EXPORT extern SDL_Window *sdlwnd;
+DLL_EXPORT extern SDL_Renderer *sdlren;
 extern zip_t *sdl_zip1;
 extern zip_t *sdl_zip2;
 extern zip_t *sdl_zip1p;

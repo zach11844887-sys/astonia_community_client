@@ -1444,18 +1444,13 @@ int render_char_len(char c)
 
 #define TEXTDISPLAYLINES (TEXTDISPLAY_SY / TEXTDISPLAY_DY)
 
-int textnextline = 0, textdisplayline = 0, textlines = 0;
+DLL_EXPORT int textnextline = 0, textdisplayline = 0, textlines = 0;
 
-struct letter {
-	char c;
-	unsigned char color;
-	unsigned char link;
-};
+// struct letter is defined in game.h
+struct letter text_storage[MAXTEXTLINES * MAXTEXTLETTERS];
+DLL_EXPORT struct letter *text = text_storage;
 
-static struct letter text_storage[MAXTEXTLINES * MAXTEXTLETTERS];
-struct letter *text = text_storage;
-
-unsigned short palette[256];
+DLL_EXPORT unsigned short palette[256];
 
 /**
  * Initialize chat window text system.

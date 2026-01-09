@@ -144,7 +144,7 @@ DLL_EXPORT void render_thick_line_alpha(
 DLL_EXPORT void render_rect(int sx, int sy, int ex, int ey, unsigned short int color);
 DLL_EXPORT void render_rect_alpha(int sx, int sy, int ex, int ey, unsigned short color, unsigned char alpha);
 DLL_EXPORT void render_rect_outline_alpha(int sx, int sy, int ex, int ey, unsigned short color, unsigned char alpha);
-void render_shaded_rect(int sx, int sy, int ex, int ey, unsigned short color, unsigned short alpha);
+DLL_EXPORT void render_shaded_rect(int sx, int sy, int ex, int ey, unsigned short color, unsigned short alpha);
 DLL_EXPORT void render_rounded_rect_alpha(
     int sx, int sy, int ex, int ey, int radius, unsigned short color, unsigned char alpha);
 DLL_EXPORT void render_rounded_rect_filled_alpha(
@@ -221,6 +221,20 @@ void render_text_lineup(void);
 void render_text_linedown(void);
 int render_scantext(int x, int y, char *hit);
 void render_list_text(void);
+
+// Chat buffer access for mods
+#define MAXTEXTLINES   256
+#define MAXTEXTLETTERS 256
+
+struct letter {
+	char c;
+	unsigned char color;
+	unsigned char link;
+};
+
+DLL_EXPORT extern struct letter *text;
+DLL_EXPORT extern int textnextline, textdisplayline, textlines;
+DLL_EXPORT extern unsigned short palette[256];
 
 // Offset functions
 int render_offset_x(void);

@@ -268,9 +268,12 @@ extern int gui_topoff;
 extern DOT *dot;
 extern BUT *but;
 
-extern int invsel; // index into item
-extern int weasel; // index into weatab
-extern int consel; // index into item
+DLL_EXPORT extern map_index_t mapsel; // selected map tile
+DLL_EXPORT extern map_index_t itmsel; // selected item on map
+DLL_EXPORT extern map_index_t chrsel; // selected character on map
+DLL_EXPORT extern int invsel; // index into item
+DLL_EXPORT extern int weasel; // index into weatab
+DLL_EXPORT extern int consel; // index into item
 extern int sklsel;
 extern int sklsel2;
 extern int butsel; // is always set, if any of the others is set
@@ -294,9 +297,9 @@ extern int vk_item, vk_char, vk_spell;
 
 extern int capbut; // the button capturing the mouse
 
-extern int invoff, max_invoff;
-extern int conoff, max_conoff;
-extern int skloff, max_skloff;
+DLL_EXPORT extern int invoff, max_invoff;
+DLL_EXPORT extern int conoff, max_conoff;
+DLL_EXPORT extern int skloff, max_skloff;
 extern int __skldy;
 extern int __invdy;
 

@@ -60,3 +60,20 @@ ubsan-report.txt.*
 # Distribution packages
 windows_client.zip
 linux_client.tar.gz
+
+# Build/distribution directories
+/distrib/
+
+# Local development notes and patches
+/patches/
+
+# Launch scripts (may contain credentials)
+launch_astonia.bat
+launch_astonia.sh
+
+# Editor/IDE settings
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

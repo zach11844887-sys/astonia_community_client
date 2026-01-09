@@ -9,6 +9,8 @@
 #include <string.h>
 #include <stdio.h>
 
+#include "../dll.h"
+
 static inline uint32_t load_ulong(const void *p)
 {
 	uint32_t v;
@@ -70,13 +72,13 @@ void sv_protocol(unsigned char *buf);
 
 void cmd_move(int x, int y);
 void cmd_ping(void);
-void cmd_swap(int with);
+DLL_EXPORT void cmd_swap(int with);
 void cmd_fastsell(int with);
-void cmd_use_inv(int with);
+DLL_EXPORT void cmd_use_inv(int with);
 void cmd_take(int x, int y);
 void cmd_look_map(int x, int y);
 void cmd_look_item(int x, int y);
-void cmd_look_inv(int pos);
+DLL_EXPORT void cmd_look_inv(int pos);
 void cmd_look_char(unsigned int cn);
 void cmd_use(int x, int y);
 void cmd_drop(int x, int y);
@@ -86,7 +88,7 @@ void cmd_stop(void);
 void cmd_kill(unsigned int cn);
 void cmd_give(unsigned int cn);
 void cmd_some_spell(int spell, int x, int y, unsigned int chr);
-void cmd_raise(int vn);
+DLL_EXPORT void cmd_raise(int vn);
 void cmd_take_gold(uint32_t vn);
 void cmd_drop_gold(void);
 void cmd_junk_item(void);

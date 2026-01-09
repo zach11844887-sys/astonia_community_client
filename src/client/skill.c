@@ -106,7 +106,7 @@ struct skill _game_skill[V_MAX] = {
     {"empty", -1, -1, -1, 0, 1} // 19
 };
 
-struct skill *game_skill = _game_skill;
+DLL_EXPORT struct skill *game_skill = _game_skill;
 
 DLL_EXPORT int raise_cost(int v, int n)
 {
@@ -227,4 +227,4 @@ char *_game_skilldesc[] = {
     "Demon, non-player prof.", "prof13: write me!", "prof14: write me!", "prof15: write me!", "prof16: write me!",
     "prof17: write me!", "prof18: write me!", "prof19: write me!", "prof20: write me!"};
 
-char **game_skilldesc = _game_skilldesc;
+DLL_EXPORT char **game_skilldesc = _game_skilldesc;

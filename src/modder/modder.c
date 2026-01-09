@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <SDL3/SDL_loadso.h>
 #include <SDL3/SDL_keycode.h>
+#include <SDL3/SDL_events.h>
 
 #include "astonia.h"
 #include "modder/modder.h"
@@ -36,6 +37,7 @@ struct mod {
 	void (*_amod_update_hover_texts)(void);
 	int (*_amod_client_cmd)(const char *buf);
 	char *(*_amod_version)(void);
+	int (*_amod_sdl_event)(SDL_Event *);
 	int loaded;
 };
 
@@ -54,6 +56,7 @@ struct mod mod[MAXMOD] = {{
     NULL, // _amod_update_hover_texts
     NULL, // _amod_client_cmd
     NULL, // _amod_version
+    NULL, // _amod_sdl_event
     0 // loaded
 }};
 
@@ -129,6 +132,9 @@ int amod_init(void)
 		}
 		if ((tmp = SDL_LoadFunction(dll_instance, "amod_version"))) {
 			mod[i]._amod_version = (char *(*)(void))tmp;
+		}
+		if ((tmp = SDL_LoadFunction(dll_instance, "amod_sdl_event"))) {
+			mod[i]._amod_sdl_event = (int (*)(SDL_Event *))tmp;
 		}
 		if (i != 0) {
 			continue; // only amod is allowed to override client stuff, the others can only add stuff
@@ -373,6 +379,21 @@ int amod_client_cmd(const char *buf)
 	int ret = 0, tmp;
 	for (int i = 0; i < MAXMOD; i++) {
 		if (mod[i]._amod_client_cmd && (tmp = mod[i]._amod_client_cmd(buf))) {
+			if (tmp > 0) {
+				return 1;
+			} else {
+				ret = 1;
+			}
+		}
+	}
+	return ret;
+}
+
+int amod_sdl_event(SDL_Event *event)
+{
+	int ret = 0, tmp;
+	for (int i = 0; i < MAXMOD; i++) {
+		if (mod[i]._amod_sdl_event && (tmp = mod[i]._amod_sdl_event(event))) {
 			if (tmp > 0) {
 				return 1;
 			} else {

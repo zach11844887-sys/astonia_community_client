@@ -1050,3 +1050,33 @@ long long sdl_get_mem_tex(void)
 {
 	return (long long)__atomic_load_n(&mem_tex, __ATOMIC_RELAXED);
 }
+
+// Get SDL_Texture* for a sprite with default item lighting
+// Returns NULL if sprite loading fails
+// Caller should NOT destroy the returned texture - it's managed by the cache
+DLL_EXPORT SDL_Texture *sdl_get_sprite_texture(unsigned int sprite, int *out_width, int *out_height)
+{
+	if (sprite == 0 || sprite >= MAXSPRITE) {
+		return NULL;
+	}
+
+	// Load sprite with default item lighting (light=15, no color mods)
+	// sink=0, freeze=0, scale=100, no color shift, normal light, no saturation
+	// c1/c2/c3=0 (no palette swap), shine=0, uniform directional lighting at 15
+	int cache_index = sdl_tx_load(sprite, 0, 0, 100, 0, 0, 0, 15, 0, 0, 0, 0, 0, 15, 15, 15, 15, 15,
+	                              NULL, 0, 0, NULL, 0, 0);
+
+	if (cache_index < 0 || cache_index >= MAX_TEXCACHE) {
+		return NULL;
+	}
+
+	// Wait for texture to be ready
+	if (!(flags_load(&sdlt[cache_index]) & SF_DIDTEX)) {
+		return NULL;
+	}
+
+	if (out_width) *out_width = sdlt[cache_index].xres;
+	if (out_height) *out_height = sdlt[cache_index].yres;
+
+	return sdlt[cache_index].tex;
+}

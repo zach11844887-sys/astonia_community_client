@@ -121,12 +121,12 @@ int fkeyitem[4];
 // globals cmd
 
 int plrmn; // mn of player
-map_index_t mapsel; // mn
-map_index_t itmsel; // mn
-map_index_t chrsel; // mn
-int invsel; // index into item
-int weasel; // index into weatab
-int consel; // index into item
+DLL_EXPORT map_index_t mapsel; // mn
+DLL_EXPORT map_index_t itmsel; // mn
+DLL_EXPORT map_index_t chrsel; // mn
+DLL_EXPORT int invsel; // index into item
+DLL_EXPORT int weasel; // index into weatab
+DLL_EXPORT int consel; // index into item
 int sklsel;
 int sklsel2;
 int butsel; // is always set, if any of the others is set
@@ -151,9 +151,9 @@ DLL_EXPORT SKLTAB *skltab = NULL;
 int skltab_max = 0;
 DLL_EXPORT int skltab_cnt = 0;
 
-int invoff, max_invoff;
-int conoff, max_conoff;
-int skloff, max_skloff;
+DLL_EXPORT int invoff, max_invoff;
+DLL_EXPORT int conoff, max_conoff;
+DLL_EXPORT int skloff, max_skloff;
 int __skldy;
 int __invdy;
 

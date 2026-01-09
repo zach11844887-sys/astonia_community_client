@@ -1488,7 +1488,7 @@ void cmd_ping(void)
 	client_send(buf, 5);
 }
 
-void cmd_swap(int with)
+DLL_EXPORT void cmd_swap(int with)
 {
 	unsigned char buf[16];
 
@@ -1510,7 +1510,7 @@ void cmd_fastsell(int with)
 	client_send(buf, 2);
 }
 
-void cmd_use_inv(int with)
+DLL_EXPORT void cmd_use_inv(int with)
 {
 	unsigned char buf[16];
 
@@ -1562,7 +1562,7 @@ void cmd_look_item(int x, int y)
 	client_send(buf, 5);
 }
 
-void cmd_look_inv(int pos)
+DLL_EXPORT void cmd_look_inv(int pos)
 {
 	unsigned char buf[16];
 
@@ -1715,7 +1715,7 @@ void cmd_some_spell(int spell, int x, int y, unsigned int chr)
 	client_send(buf, (size_t)len);
 }
 
-void cmd_raise(int vn)
+DLL_EXPORT void cmd_raise(int vn)
 {
 	unsigned char buf[16];
 	uint16_t uvn;

@@ -4,6 +4,10 @@
 
 #include <stdbool.h>
 
+// Forward declaration for SDL_Texture (avoid requiring SDL.h in every file)
+struct SDL_Texture;
+typedef struct SDL_Texture SDL_Texture;
+
 #define SDL_CUR_c_only    1
 #define SDL_CUR_c_take    2
 #define SDL_CUR_c_drop    3
@@ -171,3 +175,8 @@ void sdl_dump_spritecache(void);
 void sdl_tex_alpha(int cache_index, int alpha);
 int sdl_check_mouse(void);
 long long sdl_get_mem_tex(void);
+
+// Get SDL_Texture* for a sprite with default item lighting
+// Returns NULL if sprite loading fails
+// Caller should NOT destroy the returned texture - it's managed by the cache
+DLL_EXPORT SDL_Texture *sdl_get_sprite_texture(unsigned int sprite, int *out_width, int *out_height);

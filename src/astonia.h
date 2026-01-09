@@ -160,6 +160,13 @@ extern char *localdata;
 #define GO_LOWLIGHT (1ull << 17) // Simplify Light calculations for slow CPUs
 #define GO_NOMAP    (1ull << 18) // Disable minimap completely
 
+// ImGui mod UI suppression flags
+#define GO_HIDE_CHAT    (1ull << 19) // Hide native chat window
+#define GO_HIDE_INV     (1ull << 20) // Hide native inventory
+#define GO_HIDE_EQUIP   (1ull << 21) // Hide native equipment
+#define GO_HIDE_SKILLS  (1ull << 22) // Hide native skills panel
+#define GO_HIDE_BOTTOM  (1ull << 23) // Hide bottom stats/bars UI
+
 #define GO_NOTSET (1ull << 63) // No -o given on command line
 
 DLL_EXPORT extern uint64_t game_options;

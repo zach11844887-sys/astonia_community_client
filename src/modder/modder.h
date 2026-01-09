@@ -3,6 +3,7 @@
  */
 
 #include <SDL3/SDL_keycode.h>
+#include <SDL3/SDL_events.h>
 #define MAXMOD 6
 
 int amod_init(void);
@@ -21,6 +22,7 @@ int amod_keyup(SDL_Keycode key);
 int amod_textinput(SDL_Keycode key);
 void amod_update_hover_texts(void);
 int amod_client_cmd(const char *buf);
+int amod_sdl_event(SDL_Event *event);
 int amod_process(const unsigned char *buf);
 int amod_prefetch(const unsigned char *buf);
 int amod_is_playersprite(int sprite);

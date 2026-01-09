@@ -22,10 +22,11 @@
 #include "sdl/sdl.h"
 #include "sdl/sdl_private.h"
 #include "gui/gui.h"
+#include "modder/modder.h"
 
-// SDL window and renderer
-SDL_Window *sdlwnd = NULL;
-SDL_Renderer *sdlren = NULL;
+// SDL window and renderer (exported for ImGui mod)
+DLL_EXPORT SDL_Window *sdlwnd = NULL;
+DLL_EXPORT SDL_Renderer *sdlren = NULL;
 
 // Cursors
 static SDL_Cursor *curs[20];
@@ -626,6 +627,12 @@ void sdl_loop(void)
 	SDL_Event event;
 
 	while (SDL_PollEvent(&event)) {
+		// Let mods (e.g. ImGui) process events first
+		// If mod returns 1, it consumed the event - skip game processing
+		if (amod_sdl_event(&event)) {
+			continue;
+		}
+
 		switch (event.type) {
 		case SDL_EVENT_QUIT:
 			quit = 1;

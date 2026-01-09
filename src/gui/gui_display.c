@@ -181,41 +181,61 @@ void display(void)
 	}
 
 	render_push_clip();
-	render_more_clip(dotx(DOT_MTL), doty(DOT_MTL), dotx(DOT_MBR), doty(DOT_MBR));
+	if (game_options & GO_HIDE_BOTTOM) {
+		// Full screen game view when UI is hidden
+		render_more_clip(0, 0, 800, 600);
+	} else {
+		render_more_clip(dotx(DOT_MTL), doty(DOT_MTL), dotx(DOT_MBR), doty(DOT_MBR));
+	}
 	display_game();
 	render_pop_clip();
 
-	display_screen();
-
-	display_keys();
-	if (game_options & GO_WHEEL) {
-		display_wheel();
+	if (!(game_options & GO_HIDE_BOTTOM)) {
+		display_screen();
+		display_keys();
+		if (game_options & GO_WHEEL) {
+			display_wheel();
+		}
 	}
 	if (show_look) {
 		display_look();
 	}
-	display_wear();
-	display_inventory();
-	display_action();
+	if (!(game_options & GO_HIDE_EQUIP)) {
+		display_wear();
+	}
+	if (!(game_options & GO_HIDE_INV)) {
+		display_inventory();
+	}
+	if (!(game_options & GO_HIDE_BOTTOM)) {
+		display_action();
+	}
 	if (con_cnt) {
 		display_container();
 	} else {
-		display_skill();
+		if (!(game_options & GO_HIDE_SKILLS)) {
+			display_skill();
+		}
 	}
-	display_scrollbars();
-	display_text();
-	display_gold();
-	display_mode();
-	display_selfspells();
-	display_exp();
-	display_military();
-	display_teleport();
-	display_color();
-	display_rage();
-	display_game_special();
-	display_tutor();
-	display_selfbars();
-	display_minimap();
+	if (!(game_options & GO_HIDE_BOTTOM)) {
+		display_scrollbars();
+	}
+	if (!(game_options & GO_HIDE_CHAT)) {
+		display_text();
+	}
+	if (!(game_options & GO_HIDE_BOTTOM)) {
+		display_gold();
+		display_mode();
+		display_selfspells();
+		display_exp();
+		display_military();
+		display_teleport();
+		display_color();
+		display_rage();
+		display_game_special();
+		display_tutor();
+		display_selfbars();
+		display_minimap();
+	}
 	display_citem();
 	context_display(mousex, mousey);
 	display_helpandquest(); // display last because it is on top

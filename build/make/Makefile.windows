@@ -1,4 +1,4 @@
-.PHONY: all debug release console amod convert anicopy clean distrib-stage distrib build-sdl3 build-sdl3-mixer verify-sdl3 verify-sdl3-mixer
+.PHONY: all debug release console amod uimod imgui_mod convert anicopy clean distrib-stage distrib build-sdl3 build-sdl3-mixer verify-sdl3 verify-sdl3-mixer
 
 # Build type: release (default) or debug
 # Usage: make BUILD_TYPE=debug
@@ -268,6 +268,45 @@ bin/amod.dll:		src/amod/amod.o lib/moac.a
 
 src/amod/amod.o:	src/amod/amod.c src/amod/amod.h src/amod/amod_structs.h
 
+# Modern UI Mod
+UIMOD_SRCS = src/uimod/uimod.c src/uimod/ui_chat.c src/uimod/ui_inventory.c \
+             src/uimod/ui_equipment.c src/uimod/ui_clock.c src/uimod/ui_skills.c \
+             src/uimod/ui_quests.c
+UIMOD_OBJS = $(UIMOD_SRCS:.c=.o)
+
+bin/uimod.dll:		$(UIMOD_OBJS) lib/moac.a
+			$(CC) $(LDFLAGS) $(OPT) $(DEBUG) -shared -o bin/uimod.dll $(UIMOD_OBJS) lib/moac.a
+
+src/uimod/uimod.o:	src/uimod/uimod.c src/uimod/uimod.h
+src/uimod/ui_chat.o:	src/uimod/ui_chat.c src/uimod/uimod.h
+src/uimod/ui_inventory.o:	src/uimod/ui_inventory.c src/uimod/uimod.h
+src/uimod/ui_equipment.o:	src/uimod/ui_equipment.c src/uimod/uimod.h
+src/uimod/ui_clock.o:	src/uimod/ui_clock.c src/uimod/uimod.h
+src/uimod/ui_skills.o:	src/uimod/ui_skills.c src/uimod/uimod.h
+src/uimod/ui_quests.o:	src/uimod/ui_quests.c src/uimod/uimod.h
+
+# ImGui Modern UI Mod (C++)
+IMGUI_CORE_SRCS = src/imgui/imgui.cpp src/imgui/imgui_draw.cpp \
+                  src/imgui/imgui_tables.cpp src/imgui/imgui_widgets.cpp
+IMGUI_BACKEND_SRCS = src/imgui/backends/imgui_impl_sdl3.cpp \
+                     src/imgui/backends/imgui_impl_sdlrenderer3.cpp
+IMGUI_MOD_SRCS = src/imgui_mod/imgui_mod.cpp src/imgui_mod/ui_chat.cpp \
+                 src/imgui_mod/ui_inventory.cpp src/imgui_mod/ui_equipment.cpp \
+                 src/imgui_mod/ui_skills.cpp src/imgui_mod/ui_buffs.cpp
+IMGUI_ALL_SRCS = $(IMGUI_CORE_SRCS) $(IMGUI_BACKEND_SRCS) $(IMGUI_MOD_SRCS)
+IMGUI_OBJS = $(IMGUI_ALL_SRCS:.cpp=.o)
+
+# C++ specific flags (no exceptions/rtti for minimal footprint)
+# Use SDL_CFLAGS_RAW instead of SDL_CFLAGS (avoids -isystem breaking C++ header order)
+CXXFLAGS = -std=c++17 -fno-exceptions -fno-rtti -Wno-deprecated-enum-enum-conversion -DDLL_EXPORTS -Isrc -Isrc/imgui $(SDL_CFLAGS_RAW)
+
+# Rule for C++ compilation
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) $(OPT) $(DEBUG) -c -o $@ $<
+
+bin/imgui_mod.dll:	$(IMGUI_OBJS) lib/moac.a
+	$(CXX) $(LDFLAGS) $(OPT) $(DEBUG) -shared -o bin/imgui_mod.dll $(IMGUI_OBJS) lib/moac.a $(SDL_LIBS)
+
 bin/anicopy.exe:	src/helper/anicopy.c
 			$(CC) $(OPT) $(DEBUG) -Wall -o bin/anicopy.exe src/helper/anicopy.c
 
@@ -458,6 +497,8 @@ distrib: distrib-stage
 
 
 amod:		bin/amod.dll bin/moac.exe
+uimod:		bin/uimod.dll bin/moac.exe
+imgui_mod:	bin/imgui_mod.dll bin/moac.exe
 convert:	bin/convert.exe
 anicopy:	bin/anicopy.exe
 console:	bin/moac_dbg.exe
